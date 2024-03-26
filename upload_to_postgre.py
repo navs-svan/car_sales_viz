@@ -1,14 +1,7 @@
 import pandas as pd
 from sqlalchemy import URL, create_engine
-from sqlalchemy.orm import sessionmaker
 import json
 import os
-from table_schema import Base, Dates, Branch, Countries, Dealer, Products, Revenue
-
-# HELPER FUNCTIONS
-def load_dates(row):
-    ...
-
 
 # CREATE CONNECTION TO POSTGRE
 
@@ -27,11 +20,7 @@ engine_url = URL.create(
     database=DBNAME,
 )
 engine = create_engine(url=engine_url)
-
-Base.metadata.create_all(bind=engine)
-Session = sessionmaker(bind=engine)
-
-session = Session()
+conn = engine.connect()
 
 
 # LOAD EXCEL FILE TO PANDAS DATAFRAMES
@@ -48,8 +37,32 @@ for sheet in config:
     params = config[sheet]["READ_PARAMS"]
     df_dict[sheet] = pd.read_excel(filepath, **params)
 
-
 # Country table contains duplicates
-
-df = df = df_dict["Country"]
+    
+df = df_dict["Country"]
 df.drop_duplicates(subset=["country_id"], inplace=True)
+
+# Dealers have missing data
+
+df = df_dict["Dealer"]
+missing = pd.DataFrame.from_records(
+    [
+        {"dealer_id": "DLR0090"},
+        {"dealer_id": "DLR0144"},
+        {"dealer_id": "DLR0258"},
+        {"dealer_id": "DLR0212"},
+        {"dealer_id": "DLR0044"},
+    ]
+)
+df_dict["Dealer"] = pd.concat([df, missing], ignore_index=True)
+
+# INSERT VALUES INTO TABLE
+
+df_dict["Date"].to_sql("dates", if_exists="append", con=conn, index=False)
+df_dict["Branch"].to_sql("branches", if_exists="append", con=conn, index=False)
+df_dict["Country"].to_sql("countries", if_exists="append", con=conn, index=False)
+df_dict["Dealer"].to_sql("dealers", if_exists="append", con=conn, index=False)
+df_dict["Product"].to_sql("products", if_exists="append", con=conn, index=False)
+df_dict["Revenue"].to_sql("revenue", if_exists="append", con=conn, index=False)
+
+conn.close()
