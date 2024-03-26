@@ -1,20 +1,116 @@
 {
     "Date": {
-        "PARAMS": {}
+        "READ_PARAMS": {
+            "sheet_name": "Date",
+            "names": [
+                "date_id",
+                "date",
+                "year",
+                "month",
+                "quarter"
+            ],
+            "usecols": "A:E",
+            "dtype": {
+                "date_id": "string",
+                "date": "object",
+                "year": "int",
+                "month": "int",
+                "quarter": "string"
+            }
+        },
+        "LOAD_PARAMS": {}
     },
     "Branch": {
-        "PARAMS": {}
+        "READ_PARAMS": {
+            "sheet_name": "Branch",
+            "names": [
+                "branch_id",
+                "branch_nm",
+                "country_nm"
+            ],
+            "usecols": "A:C",
+            "dtype": {
+                "branch_id": "string",
+                "branch_nm": "string",
+                "country_nm": "string"
+            }
+        },
+        "LOAD_PARAMS": {}
     },
     "Revenue": {
-        "PARAMS": {}
+        "READ_PARAMS": {
+            "sheet_name": "Revenue",
+            "names": [
+                "dealer_id",
+                "model_id",
+                "branch_id",
+                "date_id",
+                "units_sold",
+                "revenue"
+            ],
+            "usecols": "A:F",
+            "dtype": {
+                "dealer_id": "string",
+                "model_id": "string",
+                "branch_id": "string",
+                "date_id": "string",
+                "units_sold": "int",
+                "revenue": "int"
+            }
+        },
+        "LOAD_PARAMS": {}
     },
     "Dealer": {
-        "PARAMS": {}
+        "READ_PARAMS": {
+            "sheet_name": "Dealer",
+            "names": [
+                "dealer_id",
+                "dealer_nm",
+                "location_id",
+                "location_nm",
+                "country_id"
+            ],
+            "usecols": "A:E",
+            "dtype": {
+                "dealer_id": "string",
+                "dealer_nm": "string",
+                "location_id": "string",
+                "location_nm": "string",
+                "country_id": "string"
+            }
+        },
+        "LOAD_PARAMS": {}
     },
     "Product": {
-        "PARAMS": {}
+        "READ_PARAMS": {
+            "sheet_name": "Product",
+            "names": [
+                "product_nm",
+                "model_id",
+                "model_nm"
+            ],
+            "usecols": "B:D",
+            "dtype": {
+                "product_nm": "string",
+                "model_id": "string",
+                "model_nm": "string"
+            }
+        },
+        "LOAD_PARAMS": {}
     },
-    "Coutnry": {
-        "PARAMS": {}
+    "Country": {
+        "READ_PARAMS": {
+            "sheet_name": "Country",
+            "names": [
+                "country_id",
+                "country_nm"
+            ],
+            "usecols": "A:B",
+            "dtype": {
+                "country_id": "string",
+                "country_nm": "string"
+            }
+        },
+        "LOAD_PARAMS": {}
     }
 }
